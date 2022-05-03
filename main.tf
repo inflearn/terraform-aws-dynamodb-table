@@ -35,7 +35,7 @@ resource "aws_dynamodb_table" "this" {
       name               = local_secondary_index.value.name
       range_key          = local_secondary_index.value.range_key
       projection_type    = local_secondary_index.value.projection_type
-      non_key_attributes = lookup(local_secondary_index.value, "non_key_attributes", null)
+      non_key_attributes = try(local_secondary_index.value.non_key_attributes, null)
     }
   }
 
@@ -46,10 +46,10 @@ resource "aws_dynamodb_table" "this" {
       name               = global_secondary_index.value.name
       hash_key           = global_secondary_index.value.hash_key
       projection_type    = global_secondary_index.value.projection_type
-      range_key          = lookup(global_secondary_index.value, "range_key", null)
-      read_capacity      = lookup(global_secondary_index.value, "read_capacity", null)
-      write_capacity     = lookup(global_secondary_index.value, "write_capacity", null)
-      non_key_attributes = lookup(global_secondary_index.value, "non_key_attributes", null)
+      range_key          = try(global_secondary_index.value.range_key, null)
+      read_capacity      = try(global_secondary_index.value.read_capacity, null)
+      write_capacity     = try(global_secondary_index.value.write_capacity, null)
+      non_key_attributes = try(global_secondary_index.value.non_key_attributes, null)
     }
   }
 
@@ -58,7 +58,7 @@ resource "aws_dynamodb_table" "this" {
 
     content {
       region_name = replica.value.region_name
-      kms_key_arn = lookup(replica.value, "kms_key_arn", null)
+      kms_key_arn = try(replica.value.kms_key_arn, null)
     }
   }
 
@@ -75,9 +75,9 @@ resource "aws_dynamodb_table" "this" {
   )
 
   timeouts {
-    create = lookup(var.timeouts, "create", null)
-    delete = lookup(var.timeouts, "delete", null)
-    update = lookup(var.timeouts, "update", null)
+    create = try(var.timeouts.create, null)
+    delete = try(var.timeouts.delete, null)
+    update = try(var.timeouts.update, null)
   }
 }
 
@@ -118,7 +118,7 @@ resource "aws_dynamodb_table" "autoscaled" {
       name               = local_secondary_index.value.name
       range_key          = local_secondary_index.value.range_key
       projection_type    = local_secondary_index.value.projection_type
-      non_key_attributes = lookup(local_secondary_index.value, "non_key_attributes", null)
+      non_key_attributes = try(local_secondary_index.value.non_key_attributes, null)
     }
   }
 
@@ -129,10 +129,10 @@ resource "aws_dynamodb_table" "autoscaled" {
       name               = global_secondary_index.value.name
       hash_key           = global_secondary_index.value.hash_key
       projection_type    = global_secondary_index.value.projection_type
-      range_key          = lookup(global_secondary_index.value, "range_key", null)
-      read_capacity      = lookup(global_secondary_index.value, "read_capacity", null)
-      write_capacity     = lookup(global_secondary_index.value, "write_capacity", null)
-      non_key_attributes = lookup(global_secondary_index.value, "non_key_attributes", null)
+      range_key          = try(global_secondary_index.value.range_key, null)
+      read_capacity      = try(global_secondary_index.value.read_capacity, null)
+      write_capacity     = try(global_secondary_index.value.write_capacity, null)
+      non_key_attributes = try(global_secondary_index.value.non_key_attributes, null)
     }
   }
 
@@ -141,7 +141,7 @@ resource "aws_dynamodb_table" "autoscaled" {
 
     content {
       region_name = replica.value.region_name
-      kms_key_arn = lookup(replica.value, "kms_key_arn", null)
+      kms_key_arn = try(replica.value.kms_key_arn, null)
     }
   }
 
@@ -158,9 +158,9 @@ resource "aws_dynamodb_table" "autoscaled" {
   )
 
   timeouts {
-    create = lookup(var.timeouts, "create", null)
-    delete = lookup(var.timeouts, "delete", null)
-    update = lookup(var.timeouts, "update", null)
+    create = try(var.timeouts.create, null)
+    delete = try(var.timeouts.delete, null)
+    update = try(var.timeouts.update, null)
   }
 
   lifecycle {
